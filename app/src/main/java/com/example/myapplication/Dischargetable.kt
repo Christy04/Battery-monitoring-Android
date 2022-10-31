@@ -37,15 +37,16 @@ class Dischargetable : AppCompatActivity() {
         var discharge=0
         var timeframe:Long=0
         var cycle=0
-        var i=1
         var j=0
-        for (k in 1..6) {
+        for (k in 1..5) {
             timenow=timenow.plusDays(1)
-
-
             val formatted = timenow.format(formatter)
+
             val batterylist :List<User> = db.userDao().getdischarge(formatted+'%')
             val count=batterylist.count()
+
+
+            var i=1
             if(count!=0){
 
                 var date = SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(batterylist[0].timestamp)
@@ -63,12 +64,16 @@ class Dischargetable : AppCompatActivity() {
                     var level1null:Int=level1!!
 
                     if (hours == hours1) {
-                        discharge+= (levelnull!!.minus(level1null))
-                        val diff: Long = date1.getTime() - date.getTime()
-                        val diffInMin: Long= TimeUnit.MILLISECONDS.toMinutes(diff)
-                        timeframe+=diffInMin
-
-
+                        if(levelnull<level1null){
+                            levelnull=level1null;
+                            date=date1
+                        }
+                        else{
+                            discharge+= (levelnull!!.minus(level1null))
+                            val diff: Long = date1.getTime() - date.getTime()
+                            val diffInMin: Long= TimeUnit.MILLISECONDS.toMinutes(diff)
+                            timeframe+=diffInMin
+                        }
                     }
                     if(hours!=hours1 || i==(count-1)){
                         val row=TableRow(this)
