@@ -38,28 +38,27 @@ class BatteryCount : AppCompatActivity() {
         val batterylist: List<User> = db.userDao().getcount(formatted5 + "00:00:00", formattednow + "24:59:59")
         val count = batterylist.count()
         if (count != 0) {
-            val date = SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(batterylist[0].timestamp)
+            var date = SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(batterylist[0].timestamp)
             val cal = Calendar.getInstance()
             cal.time = date
             var status = batterylist[0].batterystatus
             var level = batterylist[0].batterylevel
             var levelnull: Int = level!!
             var i = 1
-            var date1:Date
             while (i < count) {
                 try{
 
-                    date1 = SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(batterylist[i].timestamp)
+                    var date1 = SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(batterylist[i].timestamp)
                     cal.time = date1
 
                     if (batterylist[i].batterystatus != status && status == 2 && levelnull != 100) {
                         spotcount++
-                        Log.i("msg",i.toString())
                     }
                     else if (batterylist[i].batterystatus == status && status == 2 && batterylist[i].batterylevel == 100 && levelnull == 100) {
 
                         val diff: Long = date1.getTime() - date.getTime()
-                        val diffInMin: Long = TimeUnit.MILLISECONDS.toMinutes(diff)
+
+                        val diffInMin: Long= TimeUnit.MILLISECONDS.toMinutes(diff)
                         timecount += diffInMin
                     }
                     else {
@@ -78,6 +77,7 @@ class BatteryCount : AppCompatActivity() {
                     status = batterylist[i].batterystatus
                     level = batterylist[i].batterylevel
                     levelnull = level!!
+                    date=date1
                     i++
                 }
                 catch(e: Exception){

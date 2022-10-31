@@ -46,7 +46,6 @@ class Dischargetable : AppCompatActivity() {
             val formatted = timenow.format(formatter)
             val batterylist :List<User> = db.userDao().getdischarge(formatted+'%')
             val count=batterylist.count()
-            Log.i("msg",count.toString())
             if(count!=0){
 
                 var date = SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(batterylist[0].timestamp)
@@ -72,7 +71,6 @@ class Dischargetable : AppCompatActivity() {
 
                     }
                     if(hours!=hours1 || i==(count-1)){
-                        Log.i("msg",hours.toString())
                         val row=TableRow(this)
                         val layout:TableRow.LayoutParams=TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT)
                         row.layoutParams=layout
